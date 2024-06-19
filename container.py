@@ -1,25 +1,21 @@
 from abc import ABC, abstractmethod
 
+
 class Component(ABC):
     @abstractmethod
-    def draw(self, style, icon_family, prefix='', is_last=False):
+    def draw(self, style, icon_family, prefix="", is_last=False):
         pass
 
-    @abstractmethod
-    def __iter__(self):
-        pass
 
 class Leaf(Component):
     def __init__(self, name, value=None):
         self.name = name
         self.value = value
 
-    def draw(self, style, icon_family, prefix='', is_last=False):
+    def draw(self, style, icon_family, prefix="", is_last=False):
         icon = icon_family.get_leaf_icon()
         return style.render_leaf(self, icon, prefix, is_last)
 
-    def __iter__(self):
-        yield self
 
 class Container(Component):
     def __init__(self, name, level=0):
@@ -29,12 +25,7 @@ class Container(Component):
 
     def add(self, component):
         self.children.append(component)
-        
-    def draw(self, style, icon_family, prefix='', is_last=False):
+
+    def draw(self, style, icon_family, prefix="", is_last=False):
         icon = icon_family.get_container_icon()
         return style.render_container(self, icon, prefix, icon_family, is_last)
-
-    def __iter__(self):
-        yield self
-        for child in self.children:
-            yield from child

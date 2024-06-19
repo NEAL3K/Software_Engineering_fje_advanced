@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from iterator import ContainerIterator
 
 
 class Style(ABC):
@@ -71,12 +72,22 @@ class StyleFactory(ABC):
     def create_style(self):
         pass
 
+    @abstractmethod
+    def create_iterator(self, container):
+        pass
+
 
 class TreeStyleFactory(StyleFactory):
     def create_style(self):
         return TreeStyle()
+    
+    def create_iterator(self, container):
+        return ContainerIterator(container)
 
 
 class RectangleStyleFactory(StyleFactory):
     def create_style(self):
         return RectangleStyle()
+
+    def create_iterator(self, container):
+        return ContainerIterator(container)
